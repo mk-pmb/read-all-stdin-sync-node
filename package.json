@@ -1,5 +1,5 @@
 { "name": "read-all-stdin-sync",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "description": "Save one level of indentation in scripts that won't do anything anyway until they've read all of stdin.",
   "keywords": [ "stdin", "read", "sync", "readFileSync" ],
 
