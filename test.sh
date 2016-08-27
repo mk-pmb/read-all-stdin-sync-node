@@ -8,6 +8,7 @@ function run_all_tests () {
   local DIFF_CMD='diff'
   colordiff </dev/null &>/dev/null && DIFF_CMD[0]='colordiff'
   local TESTNAME= INPUT= SNIPPET= EXPECTED=
+  local INPUT_FUNC=printf
 
   TESTNAME='no data'
   INPUT=
@@ -39,8 +40,23 @@ function run_all_tests () {
   diffit || return $?
 
   TESTNAME='reading late'
+  INPUT='too late.\n'
   SNIPPET="setTimeout(function () { $SNIPPET }, 10);"
   EXPECTED="Error: Don't use sync I/O after initialization!"
+  diffit || return $?
+
+  INPUT_FUNC=printf_slow
+
+  TESTNAME='slow stdin, no data'
+  INPUT=''
+  SNIPPET='cdir(rass);'
+  EXPECTED="Error: EAGAIN: resource temporarily unavailable, read"
+  diffit || return $?
+
+  TESTNAME='slow stdin, hello world'
+  INPUT='hello world\n'
+  SNIPPET='cdir(rass);'
+  EXPECTED="Error: EAGAIN: resource temporarily unavailable, read"
   diffit || return $?
 
   echo '+OK all tests passed'
@@ -60,9 +76,16 @@ function diffit () {
     '"$SNIPPET"
   "${DIFF_CMD[@]}" -U 9002 \
     --label "expected @ $TESTNAME" <(echo "$EXPECTED") \
-    --label 'actual' <(printf "$INPUT" | nodejs -e "$SCRIPT" 2>&1
+    --label 'actual' <("$INPUT_FUNC" "$INPUT" | nodejs -e "$SCRIPT" 2>&1
     )
   return $?
+}
+
+
+function printf_slow () {
+  sleep 0.2
+  printf "$@" 2>/dev/null
+  sleep 0.1
 }
 
 
