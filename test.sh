@@ -9,21 +9,38 @@ function run_all_tests () {
   colordiff </dev/null &>/dev/null && DIFF_CMD[0]='colordiff'
   local TESTNAME= INPUT= SNIPPET= EXPECTED=
 
-  TESTNAME='reading at startup'
-  INPUT='hello\r\nworld!\n\n'
-  EXPECTED="'hello\r\nworld!\n\n'"
-  SNIPPET='cdir(rass);'
-  diffit || return $?
-
   TESTNAME='no data'
   INPUT=
-  EXPECTED="''"
   SNIPPET='cdir(rass);'
+  EXPECTED="''"
+  diffit || return $?
+
+  TESTNAME='reading at startup'
+  INPUT='hello\r\nworld!\n\n'
+  SNIPPET='cdir(rass);'
+  EXPECTED="'hello\r\nworld!\n\n'"
+  diffit || return $?
+
+  TESTNAME='strip BOM'
+  INPUT='\xEF\xBB\xBF'"$INPUT"
+  SNIPPET='cdir(rass.bind(null, { stripBOM: true }));'
+  diffit || return $?
+
+  TESTNAME='JSON w/o BOM'
+  INPUT='{ "hello": "world" }'
+  EXPECTED="{ hello: 'world' }"
+  SNIPPET='cdir(rass.bind(null, JSON));'
+  diffit || return $?
+
+  TESTNAME='JSON with BOM'
+  INPUT='\xEF\xBB\xBF'"$INPUT"
+  EXPECTED="{ hello: 'world' }"
+  SNIPPET='cdir(rass.bind(null, JSON));'
   diffit || return $?
 
   TESTNAME='reading late'
-  EXPECTED="Error: Don't use sync I/O after initialization!"
   SNIPPET="setTimeout(function () { $SNIPPET }, 10);"
+  EXPECTED="Error: Don't use sync I/O after initialization!"
   diffit || return $?
 
   echo '+OK all tests passed'

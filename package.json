@@ -1,16 +1,16 @@
 { "name": "read-all-stdin-sync",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Save one level of indentation in scripts that won't do anything anyway until they've read all of stdin.",
   "keywords": [ "stdin", "read", "sync", "readFileSync" ],
 
   "author": "M.K. (https://github.com/mk-pmb)",
-  "homepage": "https://github.com/mk-pmb/read-all-stdin-sync-js#readme",
+  "homepage": "https://github.com/mk-pmb/read-all-stdin-sync-node#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mk-pmb/read-all-stdin-sync-js.git"
+    "url": "git+https://github.com/mk-pmb/read-all-stdin-sync-node.git"
   },
   "bugs": {
-    "url": "https://github.com/mk-pmb/read-all-stdin-sync-js/issues"
+    "url": "https://github.com/mk-pmb/read-all-stdin-sync-node/issues"
   },
 
   "private": false, "license": "ISC",
