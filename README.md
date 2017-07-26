@@ -1,12 +1,18 @@
 ﻿
+<!--#echo json="package.json" key="name" underline="=" -->
 read-all-stdin-sync
 ===================
-Save one level of indentation in scripts that won't do anything anyway
-until they've read all of stdin.
+<!--/#echo -->
+
+<!--#echo json="package.json" key="description" -->
+Save one level of indentation in scripts that won&#39;t do anything anyway
+until they&#39;ve read all of stdin.
+<!--/#echo -->
 
 
 Caveats
 -------
+
   * Only works if data *can* be read from stdin right away,
     e.g. reading from a ready file handle.
     * If stdin isn't ready, expect
@@ -15,8 +21,6 @@ Caveats
       do I/O if we [sleep](https://www.npmjs.com/package/sleep).
 
 
-Usage
------
 ```javascript
 var data = require('read-all-stdin-sync')();
 console.dir(Object.keys(JSON.parse(data)));
@@ -51,9 +55,15 @@ console.dir(data);
 ```
 
 
+<!--#toc stop="scan" -->
 
+
+
+&nbsp;
 
 
 License
 -------
+<!--#echo json="package.json" key=".license" -->
 ISC
+<!--/#echo -->
